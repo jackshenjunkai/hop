@@ -492,7 +492,9 @@ public class HopGui
 
     // Activate the default perspective
     //
-    getExplorerPerspective().activate();
+    // 此处判断是否制定了要打开的画布类型
+    activatePerspective();
+    //    getExplorerPerspective().activate();
 
     // See if we need to show the Welcome dialog
     //
@@ -529,6 +531,31 @@ public class HopGui
       }
     }
     display.dispose();
+  }
+
+  /** 激活指定的画布 */
+  private void activatePerspective() {
+    List<String> args = getCommandLineArguments();
+    if (args == null) {
+      return;
+    }
+    String activate = null;
+    for (int i = 0; i < args.size(); i++) {
+      String arg = args.get(i);
+      if (arg != null && arg.startsWith("-perspective=")) {
+        activate = arg.substring("-perspective=".length()).trim();
+        args.remove(i);
+        break;
+      }
+    }
+    if (StringUtils.isNotBlank(activate)) {
+      if ("meta".equals(activate)) {
+        getMetadataPerspective().activate();
+      }
+    } else {
+      // 激活默认的第一个画布
+      getExplorerPerspective().activate();
+    }
   }
 
   private void closeEvent(Event event) {
