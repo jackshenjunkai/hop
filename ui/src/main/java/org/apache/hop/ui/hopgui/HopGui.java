@@ -477,13 +477,17 @@ public class HopGui
 
           // Open the previously used files. Extension points can disable this
           //
-          if (openingLastFiles) {
+          if (openingLastFiles || hasFileInCommandLineArgs()) {
             auditDelegate.openLastFiles();
           }
 
           // We need to start tracking file history again.
           //
           reOpeningFiles = false;
+
+          // Open file from URL/command line if -file= was provided (e.g. Hop Web ?file=...)
+          //
+          openFileFromCommandLineArgs();
         });
 
     // Activate the default perspective
@@ -529,6 +533,51 @@ public class HopGui
 
   private void closeEvent(Event event) {
     event.doit = fileDelegate.fileExit();
+  }
+
+  /**
+   * If -file= was passed in command line args (e.g. from Hop Web URL ?file=...), open that file
+   * once and remove the arg so the URL can later reflect the current tab.
+   */
+  private void openFileFromCommandLineArgs() {
+    List<String> args = getCommandLineArguments();
+    if (args == null) {
+      return;
+    }
+    String filePath = null;
+    for (int i = 0; i < args.size(); i++) {
+      String arg = args.get(i);
+      if (arg != null && arg.startsWith("-file=")) {
+        filePath = arg.substring("-file=".length()).trim();
+        args.remove(i);
+        break;
+      }
+    }
+    if (org.apache.commons.lang3.StringUtils.isEmpty(filePath)) {
+      return;
+    }
+    try {
+      String resolved = variables.resolve(filePath);
+      if (org.apache.commons.lang3.StringUtils.isNotEmpty(resolved)) {
+        fileDelegate.fileOpen(resolved, true);
+      }
+    } catch (Exception e) {
+      log.logError("Error opening file from URL '" + filePath + "'", e);
+    }
+  }
+
+  /** True if command line args contain -file=... (e.g. from Hop Web URL). */
+  private boolean hasFileInCommandLineArgs() {
+    List<String> args = getCommandLineArguments();
+    if (args == null) {
+      return false;
+    }
+    for (String arg : args) {
+      if (arg != null && arg.startsWith("-file=")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void loadPerspectives() {
