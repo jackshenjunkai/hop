@@ -24,6 +24,8 @@ cd "${0%/*}"
 # unzip files for docker image
 #
 unzip -qu ../assemblies/web/target/hop.war -d ../assemblies/web/target/webapp
+#增加直接解压client
+unzip -qu ../assemblies/client/target/hop-client-*.zip -d ../assemblies/client/target/
 #unzip -qu ../assemblies/plugins/target/hop-assemblies-*.zip -d ../assemblies/plugins/target/
 #unzip -quj ../assemblies/lib-jdbc/target/hop-assemblies-*.zip -d ../assemblies/lib-jdbc/target/jdbc-drivers
 
@@ -33,14 +35,17 @@ unzip -qu ../assemblies/web/target/hop.war -d ../assemblies/web/target/webapp
 ls -lrt ../assemblies/web/target/webapp/WEB-INF/lib/
 
 echo "Copying Hop jar file from the target folders."
-cp ../core/target/hop-core-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib/
-cp ../engine/target/hop-engine-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib
-cp ../ui/target/hop-ui-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib/
-cp ../rap/target/hop-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib/
+#cp ../assemblies/client/target/hop/lib/core/*.jar ../assemblies/web/target/webapp/WEB-INF/lib/
+#cp ../assemblies/client/target/hop/lib/beam/*.jar ../assemblies/web/target/webapp/WEB-INF/lib/
+
+#cp ../core/target/hop-core-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib/
+#cp ../engine/target/hop-engine-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib
+#cp ../ui/target/hop-ui-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib/
+#cp ../rap/target/hop-*SNAPSHOT.jar ../assemblies/web/target/webapp/WEB-INF/lib/
 
 # copy recent changes to a few plugins
 #
-cp ../plugins/engines/beam/target/hop-plugins*.jar ../assemblies/plugins/target/plugins/engines/beam/
+#cp ../plugins/engines/beam/target/hop-plugins*.jar ../assemblies/plugins/target/plugins/engines/beam/
 
 #build docker image
 docker build ../ -f web.Dockerfile -t hop-web
