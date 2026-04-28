@@ -25,7 +25,8 @@ cd "${0%/*}"
 #
 unzip -qu ../assemblies/web/target/hop.war -d ../assemblies/web/target/webapp
 unzip -qu ../assemblies/plugins/target/hop-assemblies-*.zip -d ../assemblies/plugins/target/
-unzip -quj ../assemblies/lib-jdbc/target/hop-assemblies-*.zip -d ../assemblies/lib-jdbc/target/jdbc-drivers
+#unzip -quj ../assemblies/lib-jdbc/target/hop-assemblies-*.zip -d ../assemblies/lib-jdbc/target/jdbc-drivers
+
 
 # copy recent changes in libraries...
 #
