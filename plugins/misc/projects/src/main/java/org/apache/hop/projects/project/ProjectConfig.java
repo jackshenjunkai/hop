@@ -58,6 +58,31 @@ public class ProjectConfig {
     return Objects.hash(projectName);
   }
 
+  public Project loadProject(IVariables variables) throws HopException {
+    String configFilename = getActualProjectConfigFilename(variables);
+    if (configFilename == null) {
+      String projHome = variables.resolve(getProjectHome());
+      String confFile = variables.resolve(getConfigFilename());
+      throw new HopException(
+              "Invalid project folder provided: home folder: '"
+                      + projHome
+                      + "', config file: '"
+                      + confFile
+                      + "'");
+    }
+    Project project = new Project(configFilename);
+    try {
+      if (HopVfs.getFileObject(configFilename).exists()) {
+        project.readFromFile();
+      }
+    } catch (Exception e) {
+      throw new HopException(
+              "Error checking config filename '" + configFilename + "' existence while loading project",
+              e);
+    }
+    return project;
+  }
+
   /**
    * The full path to the project config filename
    *
@@ -86,31 +111,6 @@ public class ProjectConfig {
     } catch (Exception e) {
       throw new HopException("Error calculating actual project config filename", e);
     }
-  }
-
-  public Project loadProject(IVariables variables) throws HopException {
-    String configFilename = getActualProjectConfigFilename(variables);
-    if (configFilename == null) {
-      String projHome = variables.resolve(getProjectHome());
-      String confFile = variables.resolve(getConfigFilename());
-      throw new HopException(
-          "Invalid project folder provided: home folder: '"
-              + projHome
-              + "', config file: '"
-              + confFile
-              + "'");
-    }
-    Project project = new Project(configFilename);
-    try {
-      if (HopVfs.getFileObject(configFilename).exists()) {
-        project.readFromFile();
-      }
-    } catch (Exception e) {
-      throw new HopException(
-          "Error checking config filename '" + configFilename + "' existence while loading project",
-          e);
-    }
-    return project;
   }
 
   /**
