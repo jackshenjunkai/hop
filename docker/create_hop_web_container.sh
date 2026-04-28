@@ -24,7 +24,7 @@ cd "${0%/*}"
 # unzip files for docker image
 #
 unzip -qu ../assemblies/web/target/hop.war -d ../assemblies/web/target/webapp
-unzip -qu ../assemblies/plugins/target/hop-assemblies-*.zip -d ../assemblies/plugins/target/
+#unzip -qu ../assemblies/plugins/target/hop-assemblies-*.zip -d ../assemblies/plugins/target/
 #unzip -quj ../assemblies/lib-jdbc/target/hop-assemblies-*.zip -d ../assemblies/lib-jdbc/target/jdbc-drivers
 
 
