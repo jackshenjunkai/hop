@@ -64,11 +64,11 @@ public class ProjectConfig {
       String projHome = variables.resolve(getProjectHome());
       String confFile = variables.resolve(getConfigFilename());
       throw new HopException(
-              "Invalid project folder provided: home folder: '"
-                      + projHome
-                      + "', config file: '"
-                      + confFile
-                      + "'");
+          "Invalid project folder provided: home folder: '"
+              + projHome
+              + "', config file: '"
+              + confFile
+              + "'");
     }
     Project project = new Project(configFilename);
     try {
@@ -77,8 +77,8 @@ public class ProjectConfig {
       }
     } catch (Exception e) {
       throw new HopException(
-              "Error checking config filename '" + configFilename + "' existence while loading project",
-              e);
+          "Error checking config filename '" + configFilename + "' existence while loading project",
+          e);
     }
     return project;
   }
