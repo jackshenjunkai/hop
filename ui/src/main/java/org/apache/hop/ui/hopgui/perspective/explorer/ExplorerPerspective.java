@@ -871,7 +871,15 @@ public class ExplorerPerspective implements IHopPerspective, TabClosable {
                 // If name changed
                 if (!item.getText().equals(text.getText())) {
                   try {
+
                     FileObject file = HopVfs.getFileObject(tif.path);
+                    // jack 2026年5月27日14:05:48 Need to check if the new name already exists
+                    if (HopVfs.getFileObject(
+                            file.getParent().getName().toString() + File.separator + text.getText())
+                        .exists()) {
+                      throw new HopFileException(
+                          "File or folder with name '" + text.getText() + "' already exists");
+                    }
                     FileObject newFile =
                         HopVfs.getFileObject(
                             file.getParent().getName().toString()
