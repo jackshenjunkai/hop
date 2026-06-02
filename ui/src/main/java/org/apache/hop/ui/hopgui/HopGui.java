@@ -199,6 +199,7 @@ public class HopGui
   public static final String ID_MAIN_MENU_EDIT_NAV_NEXT = "20410-menu-edit-nav-next";
 
   public static final String ID_MAIN_MENU_VIEW_PARENT_ID = "25000-menu-view";
+  public static final String ID_MAIN_MENU_VIEW_FULL_SCREEN = "25010-menu-view-full-screen";
   public static final String ID_MAIN_MENU_VIEW_TERMINAL = "25010-menu-view-terminal";
   public static final String ID_MAIN_MENU_VIEW_NEW_TERMINAL = "25020-menu-view-new-terminal";
 
@@ -447,7 +448,11 @@ public class HopGui
 
   /** Build the shell */
   protected void open() {
-    shell.setImage(GuiResource.getInstance().getImageHopUiTaskbar());
+    // Hand Windows a multi-resolution icon set so it can pick the right size for each slot
+    // (title bar, taskbar, alt-tab, jump-list). Passing only one 16x16 image left Windows
+    // scaling up to 64x64 for the taskbar, which sometimes worked and sometimes fell back
+    // to a generic icon depending on DPI and the icon cache state.
+    shell.setImages(GuiResource.getInstance().getImagesHopUiTaskbar());
 
     /*
      * On macOs the image gets loaded too soon, add a listener to set the image when the shell is
@@ -1498,6 +1503,19 @@ public class HopGui
       parentId = ID_MAIN_MENU)
   public void menuView() {
     // Nothing is done here.
+  }
+
+  @GuiMenuElement(
+      root = ID_MAIN_MENU,
+      id = ID_MAIN_MENU_VIEW_FULL_SCREEN,
+      label = "i18n::HopGui.Menu.View.FullScreen",
+      parentId = ID_MAIN_MENU_VIEW_PARENT_ID)
+  @GuiKeyboardShortcut(alt = true, key = SWT.F11)
+  @GuiOsxKeyboardShortcut(command = true, control = true, key = 'F')
+  public void menuViewFullScreen() {
+    if (!shell.isDisposed()) {
+      shell.setFullScreen(!shell.getFullScreen());
+    }
   }
 
   // ======================== Run Menu ========================

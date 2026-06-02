@@ -176,6 +176,19 @@ public class Const {
       description = "A comma separated list pointing to folders with JDBC drivers to add.")
   public static final String HOP_SHARED_JDBC_FOLDERS = "HOP_SHARED_JDBC_FOLDERS";
 
+  /**
+   * Per-run override for the engine-compatibility gate in {@code Pipeline.prepareExecution} /
+   * {@code Workflow.startExecution}. Set to 'Y' to run a pipeline or workflow that contains
+   * transforms or actions the selected engine has marked UNSUPPORTED. CLI sets it from {@code
+   * hop-run --allow-unsupported}; HopGui sets it when the user clicks "Run anyway".
+   */
+  @Variable(
+      scope = VariableScope.APPLICATION,
+      value = "N",
+      description =
+          "Set to 'Y' to bypass the engine-compatibility gate and run pipelines/workflows that contain transforms or actions marked UNSUPPORTED on the selected engine. Run-scoped, not persisted.")
+  public static final String HOP_ALLOW_UNSUPPORTED = "HOP_ALLOW_UNSUPPORTED";
+
   /** The operating system the hop platform runs on */
   @Variable(
       scope = VariableScope.SYSTEM,
@@ -304,6 +317,9 @@ public class Const {
   /** Default we store our information in Unicode UTF-8 character set. */
   public static final String UTF_8 = "UTF-8";
 
+  /** Placeholder for the project home directory. */
+  public static final String VAR_PROJECT_HOME = "${PROJECT_HOME}";
+
   /** Allow or disallow doctype declarations in XML. " */
   @Variable(value = "N", description = "A variable allow or disallow doctype declarations in XML")
   public static final String XML_ALLOW_DOCTYPE_DECL = "XML_ALLOW_DOCTYPE_DECL";
@@ -397,6 +413,30 @@ public class Const {
       INTERNAL_VARIABLE_PREFIX + ".Transform.BundleNr";
 
   public static final String INTERNAL_VARIABLE_ACTION_ID = INTERNAL_VARIABLE_PREFIX + ".Action.ID";
+
+  /** The Hop server name as configured in hop-server.xml */
+  public static final String INTERNAL_VARIABLE_HOP_SERVER_NAME =
+      INTERNAL_VARIABLE_PREFIX + ".Server.Name";
+
+  /** The Hop server hostname */
+  public static final String INTERNAL_VARIABLE_HOP_SERVER_HOSTNAME =
+      INTERNAL_VARIABLE_PREFIX + ".Server.Hostname";
+
+  /** The Hop server HTTP port */
+  public static final String INTERNAL_VARIABLE_HOP_SERVER_PORT =
+      INTERNAL_VARIABLE_PREFIX + ".Server.Port";
+
+  /** The Hop server web application name */
+  public static final String INTERNAL_VARIABLE_HOP_SERVER_WEB_APP_NAME =
+      INTERNAL_VARIABLE_PREFIX + ".Server.WebAppName";
+
+  /** The Hop server username */
+  public static final String INTERNAL_VARIABLE_HOP_SERVER_USERNAME =
+      INTERNAL_VARIABLE_PREFIX + ".Server.Username";
+
+  /** Whether the Hop server is running in SSL mode */
+  public static final String INTERNAL_VARIABLE_HOP_SERVER_SSL_MODE =
+      INTERNAL_VARIABLE_PREFIX + ".Server.SslMode";
 
   /** The default maximum for the nr of lines in the GUI logs */
   public static final int MAX_NR_LOG_LINES = 5000;

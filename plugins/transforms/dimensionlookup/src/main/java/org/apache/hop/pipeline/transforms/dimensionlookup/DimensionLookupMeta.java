@@ -294,7 +294,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       throw new HopTransformException(message);
     }
 
-    IValueMeta tkValueMeta = buildTkValueMeta(inputRowMeta, name, variables);
+    IValueMeta tkValueMeta = buildTkValueMeta(inputRowMeta, fields.returns.keyField, variables);
 
     if (StringUtils.isNotEmpty(fields.returns.keyRename)) {
       tkValueMeta.setName(fields.returns.keyRename);
@@ -342,9 +342,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       throws HopTransformException {
     IValueMeta tkValueMeta;
     switch (fields.returns.creationMethod) {
-      case SEQUENCE:
-      case TABLE_MAXIMUM:
-      case AUTO_INCREMENT:
+      case SEQUENCE, TABLE_MAXIMUM, AUTO_INCREMENT:
         tkValueMeta = new ValueMetaInteger(name, 9, 0);
         break;
       case UUID:
