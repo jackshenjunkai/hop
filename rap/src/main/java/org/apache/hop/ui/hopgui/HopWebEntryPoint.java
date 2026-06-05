@@ -187,7 +187,8 @@ public class HopWebEntryPoint extends AbstractEntryPoint {
     HopGui.getInstance().open();
 
     // URL params were only for initial project/file; clear so they don't affect CLI/run.
-    HopGui.getInstance().setCommandLineArguments(new ArrayList<>());
+    // 为了后续能打开指定文件所以需要保留参数
+//    HopGui.getInstance().setCommandLineArguments(new ArrayList<>());
 
     HopWebUrlHelper.setUrlUpdater(new RapHopWebUrlUpdater());
 
